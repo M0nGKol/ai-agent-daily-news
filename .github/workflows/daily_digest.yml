@@ -1,0 +1,52 @@
+name: Daily AI Topics (legacy, manual only)
+
+# Superseded by news_digest.yml. The automatic hourly schedule is disabled so it
+# no longer posts static topic cards; you can still trigger it manually from the
+# Actions tab (Run workflow) if you ever want a one-off topic card.
+on:
+  # schedule:
+  #   - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  daily-topics:
+    name: Run hourly topic dispatcher
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: "1"
+      DATABASE_URL: ${{ secrets.DATABASE_URL || 'sqlite:///./daily_digest.db' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+      LLM_MODEL: ${{ vars.LLM_MODEL }}
+      LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
+      RSS_FEEDS: ${{ vars.RSS_FEEDS }}
+      DIGEST_MODE: topics
+      MAX_DIGEST_ITEMS: ${{ vars.MAX_DIGEST_ITEMS || '5' }}
+      TOPIC_TIMEZONE: ${{ vars.TOPIC_TIMEZONE || 'Asia/Phnom_Penh' }}
+      TOPIC_SEND_START_HOUR: ${{ vars.TOPIC_SEND_START_HOUR || '8' }}
+      TOPIC_SEND_END_HOUR: ${{ vars.TOPIC_SEND_END_HOUR || '22' }}
+      TOPIC_DUE_WINDOW_MINUTES: ${{ vars.TOPIC_DUE_WINDOW_MINUTES || '75' }}
+      HTTP_TIMEOUT_SECONDS: ${{ vars.HTTP_TIMEOUT_SECONDS || '20' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run dispatcher (honors DIGEST_MODE)
+        run: python -m app.jobs.run

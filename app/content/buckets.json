@@ -1,0 +1,78 @@
+{
+  "min_bucket_score": 1.0,
+  "title_multiplier": 1.5,
+  "buckets": {
+    "serving_inference": {
+      "label": "LLM Serving & Inference",
+      "keywords": [
+        "inference", "vllm", "tgi", "sglang", "tensorrt", "llama.cpp", "gguf",
+        "quantization", "quantized", "quantize", "gptq", "awq", "bitsandbytes",
+        "kv cache", "kv-cache", "paged attention", "flash attention",
+        "speculative decoding", "continuous batching", "throughput", "latency",
+        "tokens per second", "serving", "model serving", "triton", "onnx",
+        "tensor parallel", "pipeline parallel", "context window", "long context"
+      ]
+    },
+    "agents_orchestration": {
+      "label": "Agents & Orchestration",
+      "keywords": [
+        "agent", "agents", "agentic", "multi agent", "multi-agent", "tool use",
+        "tool calling", "function calling", "react agent", "orchestration",
+        "langgraph", "autogen", "crewai", "workflow", "planner", "planning",
+        "mcp", "model context protocol", "computer use", "browser agent",
+        "agent framework", "stateful agent", "memory module"
+      ]
+    },
+    "rag_retrieval": {
+      "label": "RAG & Retrieval",
+      "keywords": [
+        "rag", "retrieval augmented", "retrieval-augmented", "retrieval",
+        "vector database", "vector db", "vector store", "embedding", "embeddings",
+        "reranker", "rerank", "chunking", "semantic search", "hybrid search",
+        "faiss", "pgvector", "qdrant", "weaviate", "milvus", "pinecone",
+        "knowledge base", "context retrieval", "bm25", "colbert"
+      ]
+    },
+    "finetuning_training": {
+      "label": "Fine-tuning & Training",
+      "keywords": [
+        "fine tuning", "fine-tuning", "finetune", "finetuning", "lora", "qlora",
+        "peft", "pretraining", "pre-training", "post training", "post-training",
+        "rlhf", "dpo", "ppo", "grpo", "instruction tuning", "sft",
+        "supervised fine", "training run", "training recipe", "dataset",
+        "synthetic data", "data mixture", "tokenizer", "distillation",
+        "mixture of experts", "moe", "continued pretraining", "curriculum"
+      ]
+    },
+    "eval_observability": {
+      "label": "Eval & Observability",
+      "keywords": [
+        "benchmark", "evaluation", "eval", "evals", "leaderboard", "mmlu",
+        "gsm8k", "humaneval", "swe-bench", "swe bench", "observability",
+        "tracing", "trace", "monitoring", "guardrail", "guardrails",
+        "hallucination", "red teaming", "red-teaming", "llm judge",
+        "llm-as-a-judge", "evaluation harness", "regression test", "scoring"
+      ]
+    },
+    "oss_tooling_infra": {
+      "label": "OSS Tooling & Infra",
+      "keywords": [
+        "open source", "open-source", "open weights", "open-weights", "weights",
+        "released", "release", "library", "framework", "sdk", "toolkit", "cli",
+        "github", "repository", "open model", "apache 2.0", "mit license",
+        "self host", "self-host", "self hosted", "kubernetes", "docker",
+        "gpu cluster", "cuda kernel", "triton kernel", "pytorch", "jax",
+        "model release", "checkpoint", "huggingface", "hugging face"
+      ]
+    }
+  },
+  "hype_terms": [
+    "raises", "raised", "funding round", "series a", "series b", "series c",
+    "seed round", "valuation", "valued at", "ipo", "goes public",
+    "acquires", "acquisition", "to acquire", "buys", "merger", "stake in",
+    "hires", "appoints", "named ceo", "steps down", "resigns", "departs",
+    "joins as", "lawsuit", "sues", "settlement", "antitrust", "subpoena",
+    "partners with", "partnership with", "teams up with", "collaborates with",
+    "stock", "shares surge", "market cap", "billionaire", "to invest", "invests"
+  ]
+}

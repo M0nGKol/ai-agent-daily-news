@@ -1,0 +1,58 @@
+name: Daily AI Engineering News Digest
+
+# Live news pipeline: collect -> classify (drop hype) -> rank with dynamic
+# source discovery -> summarize -> deliver to Telegram. Runs once per day.
+# To use this instead of the hourly topic cards, keep DIGEST_MODE: digest below.
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 00:00 UTC = 07:00 ICT (Asia/Phnom_Penh, UTC+7)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  news-digest:
+    name: Run daily news digest
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: "1"
+      DATABASE_URL: ${{ secrets.DATABASE_URL || 'sqlite:///./daily_digest.db' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+      LLM_MODEL: ${{ vars.LLM_MODEL }}
+      LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
+      RSS_FEEDS: ${{ vars.RSS_FEEDS }}
+      DIGEST_MODE: digest
+      MAX_DIGEST_ITEMS: ${{ vars.MAX_DIGEST_ITEMS || '5' }}
+      SOURCE_STATE_DIR: state
+      HTTP_TIMEOUT_SECONDS: ${{ vars.HTTP_TIMEOUT_SECONDS || '20' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Restore source discovery state
+        uses: actions/cache@v4
+        with:
+          path: state
+          key: source-discovery-state-${{ github.run_id }}
+          restore-keys: |
+            source-discovery-state-
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run news digest
+        run: python -m app.jobs.run

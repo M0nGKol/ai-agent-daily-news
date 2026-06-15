@@ -1,0 +1,252 @@
+[
+  {
+    "key": "cross-validation",
+    "title": "Cross-Validation",
+    "category": "Machine Learning",
+    "difficulty": "beginner",
+    "snippet": "Cross-validation estimates how well a model generalizes by repeatedly training and evaluating on different splits of the data. It is more reliable than trusting a single train/test split when the dataset is small or noisy.",
+    "why_it_matters": "It helps you detect overfitting before a model reaches production.",
+    "try_this": "When comparing two models, use the same cross-validation splits so the comparison is fair.",
+    "source_url": "https://scikit-learn.org/stable/modules/cross_validation.html"
+  },
+  {
+    "key": "precision-recall",
+    "title": "Precision vs. Recall",
+    "category": "Machine Learning",
+    "difficulty": "beginner",
+    "snippet": "Precision measures how many predicted positives were correct, while recall measures how many real positives were found. The right balance depends on whether false alarms or missed detections are more costly.",
+    "why_it_matters": "Most real classifiers need a threshold tradeoff, not just a high accuracy score.",
+    "try_this": "For an imbalanced dataset, inspect precision, recall, and the confusion matrix before trusting accuracy.",
+    "source_url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall"
+  },
+  {
+    "key": "regularization",
+    "title": "Regularization",
+    "category": "Machine Learning",
+    "difficulty": "beginner",
+    "snippet": "Regularization discourages overly complex models by adding a penalty during training. L1 and L2 penalties are common ways to reduce overfitting in linear models.",
+    "why_it_matters": "A slightly constrained model often performs better on new data than a model that memorizes training examples.",
+    "try_this": "Train the same model with several regularization strengths and compare validation performance.",
+    "source_url": "https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression-and-classification"
+  },
+  {
+    "key": "gradient-boosting",
+    "title": "Gradient Boosting",
+    "category": "Machine Learning",
+    "difficulty": "intermediate",
+    "snippet": "Gradient boosting builds an ensemble by training new weak models to correct the errors of previous ones. It is a strong baseline for structured/tabular data.",
+    "why_it_matters": "For many business datasets, boosted trees can beat more complex neural approaches.",
+    "try_this": "Use gradient boosting as a tabular-data baseline before reaching for deep learning.",
+    "source_url": "https://scikit-learn.org/stable/modules/ensemble.html#gradient-boosting"
+  },
+  {
+    "key": "feature-scaling",
+    "title": "Feature Scaling",
+    "category": "Machine Learning",
+    "difficulty": "beginner",
+    "snippet": "Feature scaling puts numeric inputs on comparable ranges, often by standardizing or normalizing them. Many distance-based and gradient-based models train more reliably when features are scaled.",
+    "why_it_matters": "Unscaled features can make one input dominate simply because of its units.",
+    "try_this": "Fit scalers on training data only, then apply the same transform to validation and test data.",
+    "source_url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+  },
+  {
+    "key": "convolution",
+    "title": "Convolutional Layers",
+    "category": "Deep Learning",
+    "difficulty": "beginner",
+    "snippet": "Convolutional layers apply small learned filters across an input, making them useful for spatial patterns such as edges, shapes, and textures. They share weights across locations to reduce parameter count.",
+    "why_it_matters": "CNNs remain a practical foundation for vision and signal-processing workloads.",
+    "try_this": "Inspect first-layer filters of a trained CNN to see what low-level patterns it learned.",
+    "source_url": "https://www.deeplearningbook.org/contents/convnets.html"
+  },
+  {
+    "key": "attention",
+    "title": "Attention",
+    "category": "Deep Learning",
+    "difficulty": "intermediate",
+    "snippet": "Attention lets a model weigh different parts of an input when producing each output. Transformer models rely on self-attention to connect tokens across a sequence.",
+    "why_it_matters": "Attention is the core mechanism behind modern language and multimodal foundation models.",
+    "try_this": "Read one transformer diagram and identify where queries, keys, and values appear.",
+    "source_url": "https://arxiv.org/abs/1706.03762"
+  },
+  {
+    "key": "dropout",
+    "title": "Dropout",
+    "category": "Deep Learning",
+    "difficulty": "beginner",
+    "snippet": "Dropout randomly disables a fraction of activations during training. This makes the network less dependent on any single pathway and can improve generalization.",
+    "why_it_matters": "It is a simple regularization tool for neural networks that overfit.",
+    "try_this": "Compare validation curves with dropout turned off and on for the same network.",
+    "source_url": "https://jmlr.org/papers/v15/srivastava14a.html"
+  },
+  {
+    "key": "batch-normalization",
+    "title": "Batch Normalization",
+    "category": "Deep Learning",
+    "difficulty": "intermediate",
+    "snippet": "Batch normalization normalizes intermediate activations during training and learns scale/shift parameters. It often stabilizes training and allows higher learning rates.",
+    "why_it_matters": "Normalization layers are a major reason deeper neural networks became easier to train.",
+    "try_this": "Add batch normalization after dense or convolution layers and compare training stability.",
+    "source_url": "https://arxiv.org/abs/1502.03167"
+  },
+  {
+    "key": "embeddings",
+    "title": "Embeddings",
+    "category": "Deep Learning",
+    "difficulty": "beginner",
+    "snippet": "Embeddings map discrete items such as words, products, or users into dense vectors. Similar items tend to live near each other in the vector space.",
+    "why_it_matters": "Embeddings power search, recommendations, clustering, and many GenAI retrieval systems.",
+    "try_this": "Take a small set of texts, embed them, and inspect nearest neighbors.",
+    "source_url": "https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture"
+  },
+  {
+    "key": "rag",
+    "title": "Retrieval-Augmented Generation",
+    "category": "GenAI Technique",
+    "difficulty": "intermediate",
+    "snippet": "RAG retrieves relevant external documents before asking a model to generate an answer. This helps ground responses in data that may be private, recent, or too large to fit in a prompt.",
+    "why_it_matters": "RAG is one of the most useful patterns for building AI apps over company knowledge.",
+    "try_this": "For a chatbot, log the retrieved chunks beside the model answer so failures are easier to debug.",
+    "source_url": "https://arxiv.org/abs/2005.11401"
+  },
+  {
+    "key": "function-calling",
+    "title": "Function Calling",
+    "category": "GenAI Technique",
+    "difficulty": "intermediate",
+    "snippet": "Function calling lets a model choose structured tool arguments instead of only producing free-form text. The application still executes the tool and controls side effects.",
+    "why_it_matters": "It turns LLMs into safer planners for APIs, databases, and workflow automation.",
+    "try_this": "Define one read-only tool first, then inspect the model's arguments before executing anything.",
+    "source_url": "https://platform.openai.com/docs/guides/function-calling"
+  },
+  {
+    "key": "prompt-engineering",
+    "title": "Prompt Engineering",
+    "category": "GenAI Technique",
+    "difficulty": "beginner",
+    "snippet": "Prompt engineering is the practice of giving a model clear task instructions, context, constraints, and output format. Small changes can strongly affect reliability.",
+    "why_it_matters": "Good prompts reduce ambiguity before you invest in fine-tuning or more complex systems.",
+    "try_this": "Add an explicit output schema and test the same prompt on 10 varied examples.",
+    "source_url": "https://platform.openai.com/docs/guides/prompt-engineering"
+  },
+  {
+    "key": "fine-tuning",
+    "title": "Fine-Tuning",
+    "category": "GenAI Technique",
+    "difficulty": "intermediate",
+    "snippet": "Fine-tuning adapts a base model using task-specific examples. It is best when you need consistent style, format, or domain behavior that prompting alone cannot achieve.",
+    "why_it_matters": "Fine-tuning can improve repeatability, but it needs high-quality examples and evaluation.",
+    "try_this": "Before fine-tuning, create a held-out eval set so you can prove the tuned model improved.",
+    "source_url": "https://platform.openai.com/docs/guides/fine-tuning"
+  },
+  {
+    "key": "llm-evaluation",
+    "title": "LLM Evaluation",
+    "category": "GenAI Technique",
+    "difficulty": "intermediate",
+    "snippet": "LLM evaluation checks model outputs against task-specific quality criteria such as correctness, grounding, tone, and safety. It can combine human review, rule checks, and model-graded evals.",
+    "why_it_matters": "Without evals, every prompt or model change becomes guesswork.",
+    "try_this": "Create 20 representative examples and score old vs. new prompts before shipping.",
+    "source_url": "https://platform.openai.com/docs/guides/evals"
+  },
+  {
+    "key": "vector-databases",
+    "title": "Vector Databases",
+    "category": "AI Engineering",
+    "difficulty": "intermediate",
+    "snippet": "Vector databases store embeddings and support nearest-neighbor search. They are commonly used to retrieve semantically similar documents for RAG systems.",
+    "why_it_matters": "Retrieval quality often determines whether a GenAI app feels useful or unreliable.",
+    "try_this": "Evaluate retrieval with labeled questions before tuning the generation prompt.",
+    "source_url": "https://www.pinecone.io/learn/vector-database/"
+  },
+  {
+    "key": "model-serving",
+    "title": "Model Serving",
+    "category": "AI Engineering",
+    "difficulty": "intermediate",
+    "snippet": "Model serving is the production layer that handles inference requests, batching, scaling, latency, and reliability. It turns trained models into usable services.",
+    "why_it_matters": "A good model can still fail users if serving is slow, expensive, or unreliable.",
+    "try_this": "Track p50, p95, and p99 latency separately; averages hide user pain.",
+    "source_url": "https://www.tensorflow.org/tfx/guide/serving"
+  },
+  {
+    "key": "model-monitoring",
+    "title": "Model Monitoring",
+    "category": "AI Engineering",
+    "difficulty": "intermediate",
+    "snippet": "Model monitoring tracks production behavior such as input drift, output distributions, latency, and error rates. It helps detect when a model no longer matches real-world data.",
+    "why_it_matters": "Production ML systems degrade silently unless you watch the data and outcomes.",
+    "try_this": "Log input feature summaries and compare them to training-time distributions.",
+    "source_url": "https://www.tensorflow.org/tfx/guide/evaluator"
+  },
+  {
+    "key": "inference-cost",
+    "title": "Inference Cost Optimization",
+    "category": "AI Engineering",
+    "difficulty": "intermediate",
+    "snippet": "Inference cost depends on model size, token count, batching, caching, hardware, and request volume. Reducing unnecessary context is often the fastest win for LLM apps.",
+    "why_it_matters": "AI apps can look cheap in prototypes and become expensive at scale.",
+    "try_this": "Log input tokens, output tokens, latency, and cost per route or feature.",
+    "source_url": "https://huggingface.co/docs/text-generation-inference/index"
+  },
+  {
+    "key": "data-pipelines",
+    "title": "ML Data Pipelines",
+    "category": "AI Engineering",
+    "difficulty": "intermediate",
+    "snippet": "ML data pipelines transform raw data into training and inference-ready features. Reliable pipelines make experiments reproducible and production behavior easier to trace.",
+    "why_it_matters": "Many ML bugs are data bugs wearing a model costume.",
+    "try_this": "Version the dataset or feature query used for every training run.",
+    "source_url": "https://www.tensorflow.org/tfx/guide"
+  },
+  {
+    "key": "data-leakage",
+    "title": "Data Leakage",
+    "category": "Evaluation & Safety",
+    "difficulty": "beginner",
+    "snippet": "Data leakage happens when training data contains information that would not be available at prediction time. It can make validation scores look excellent while real-world performance fails.",
+    "why_it_matters": "Leakage is one of the fastest ways to fool yourself with ML metrics.",
+    "try_this": "Ask whether every feature would exist at the exact moment the prediction is made.",
+    "source_url": "https://scikit-learn.org/stable/common_pitfalls.html#data-leakage"
+  },
+  {
+    "key": "model-cards",
+    "title": "Model Cards",
+    "category": "Evaluation & Safety",
+    "difficulty": "beginner",
+    "snippet": "Model cards document what a model is for, how it was evaluated, and where it may fail. They help teams communicate model limitations clearly.",
+    "why_it_matters": "Documentation makes model behavior easier to review, govern, and improve.",
+    "try_this": "Write a one-page card for your next model before deploying it.",
+    "source_url": "https://arxiv.org/abs/1810.03993"
+  },
+  {
+    "key": "hallucination",
+    "title": "LLM Hallucination",
+    "category": "Evaluation & Safety",
+    "difficulty": "beginner",
+    "snippet": "Hallucination is when a model produces fluent but unsupported or false information. Grounding, retrieval, citations, and strict output checks can reduce the risk.",
+    "why_it_matters": "Confident wrong answers are one of the biggest risks in user-facing LLM apps.",
+    "try_this": "Require source citations for factual answers and reject answers without supporting evidence.",
+    "source_url": "https://arxiv.org/abs/2311.05232"
+  },
+  {
+    "key": "bias-fairness",
+    "title": "Bias and Fairness",
+    "category": "Evaluation & Safety",
+    "difficulty": "intermediate",
+    "snippet": "Bias analysis checks whether a model behaves differently across groups, contexts, or data slices. Fairness work combines measurement, product judgment, and governance.",
+    "why_it_matters": "Aggregate metrics can hide harmful failures for specific groups.",
+    "try_this": "Slice evaluation metrics by meaningful cohorts instead of reporting only one global score.",
+    "source_url": "https://developers.google.com/machine-learning/crash-course/fairness/video-lecture"
+  },
+  {
+    "key": "guardrails",
+    "title": "AI Guardrails",
+    "category": "Evaluation & Safety",
+    "difficulty": "intermediate",
+    "snippet": "Guardrails are checks and controls around model inputs, outputs, tools, and policies. They can include schema validation, moderation, retrieval checks, and permission boundaries.",
+    "why_it_matters": "Guardrails make AI systems more predictable without assuming the model is perfect.",
+    "try_this": "Start with simple deterministic checks before adding another model-based safety layer.",
+    "source_url": "https://platform.openai.com/docs/guides/safety-best-practices"
+  }
+]
