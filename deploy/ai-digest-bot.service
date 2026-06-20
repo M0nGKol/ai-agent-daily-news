@@ -1,0 +1,20 @@
+[Unit]
+Description=AI Digest Telegram Command Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/opt/ai-agents-daily-news
+EnvironmentFile=/opt/ai-agents-daily-news/.env
+Environment=SOURCE_STATE_DIR=/opt/ai-agents-daily-news/state
+ExecStart=/opt/ai-agents-daily-news/.venv/bin/python -m app.jobs.telegram_command_bot
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ai-digest-bot
+
+[Install]
+WantedBy=multi-user.target

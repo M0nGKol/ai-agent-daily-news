@@ -89,19 +89,24 @@ echo "==> Installing systemd units..."
 # The service uses the instance specifier (%i) for the username.
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}@.service"
 TIMER_FILE="/etc/systemd/system/${SERVICE_NAME}@${RUN_AS}.timer"
+BOT_SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}-bot@.service"
 
-# Patch WorkingDirectory and venv path into service file
+# Patch WorkingDirectory and venv path into service files
 sed "s|/opt/ai-agents-daily-news|$APP_DIR|g" \
   "$APP_DIR/deploy/ai-digest.service" > "$SERVICE_FILE"
+
+sed "s|/opt/ai-agents-daily-news|$APP_DIR|g" \
+  "$APP_DIR/deploy/ai-digest-bot.service" > "$BOT_SERVICE_FILE"
 
 # Patch the Requires= line in the timer to match the actual service instance
 sed "s|%i|$RUN_AS|g" \
   "$APP_DIR/deploy/ai-digest.timer" > "$TIMER_FILE"
 
-chmod 644 "$SERVICE_FILE" "$TIMER_FILE"
+chmod 644 "$SERVICE_FILE" "$TIMER_FILE" "$BOT_SERVICE_FILE"
 
 systemctl daemon-reload
 systemctl enable --now "${SERVICE_NAME}@${RUN_AS}.timer"
+systemctl enable --now "${SERVICE_NAME}-bot@${RUN_AS}.service"
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 echo ""
@@ -110,5 +115,6 @@ echo ""
 echo "Useful commands:"
 echo "  Check timer status:    systemctl status ${SERVICE_NAME}@${RUN_AS}.timer"
 echo "  Run digest now:        systemctl start ${SERVICE_NAME}@${RUN_AS}.service"
-echo "  View logs:             journalctl -u ${SERVICE_NAME}@${RUN_AS}.service -f"
+echo "  View logs (digest):    journalctl -u ${SERVICE_NAME}@${RUN_AS}.service -f"
+echo "  View logs (bot):       journalctl -u ${SERVICE_NAME}-bot@${RUN_AS}.service -f"
 echo "  Next scheduled run:    systemctl list-timers ${SERVICE_NAME}*"
