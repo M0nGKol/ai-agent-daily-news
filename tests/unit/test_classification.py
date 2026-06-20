@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from app.schemas.items import CollectedItem
-from app.services.classification import (
+from app.curation.classification import (
     classify_and_filter,
     classify_item,
     get_bucket_config,

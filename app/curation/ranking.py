@@ -9,7 +9,7 @@ import math
 from typing import Any
 from urllib.parse import urlparse
 
-from app.services.deduplication import (
+from app.curation.deduplication import (
     deduplicate_items,
     item_value,
     normalize_text,

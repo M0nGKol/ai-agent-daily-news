@@ -3,14 +3,14 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 
-from app.jobs.daily_digest import (
+from app.pipelines.news_selection import (
     curate_digest_selection,
     finalize_source_registry,
     select_digest_items,
 )
 from app.schemas.items import CollectedItem
-from app.services.curation import CurationResult
-from app.services.source_discovery import SourceRegistry, load_registry
+from app.curation.curator import CurationResult
+from app.curation.source_discovery import SourceRegistry, load_registry
 
 
 def test_select_digest_items_limits_to_five_and_prefers_news() -> None:
@@ -80,6 +80,28 @@ def test_curate_digest_selection_drops_hype_and_harvests_sources() -> None:
     assert isinstance(curation, CurationResult)
     # Non-trusted domains seen this run should be pooled as candidates.
     assert "a.dev" in registry.candidates
+
+
+def test_curate_digest_selection_excludes_recently_delivered_urls() -> None:
+    settings = SimpleNamespace(max_digest_items=5, max_items_per_source_domain=1)
+    registry = SourceRegistry()
+    repeated = _news(
+        "vLLM improves inference throughput with paged attention",
+        "https://a.dev/repeated",
+    )
+    fresh = _news(
+        "New reranker boosts RAG retrieval quality",
+        "https://c.dev/fresh",
+    )
+
+    selected, _ = curate_digest_selection(
+        [repeated, fresh],
+        settings=settings,
+        registry=registry,
+        exclude_source_urls={"https://a.dev/repeated"},
+    )
+
+    assert [item.source_url for item in selected] == ["https://c.dev/fresh"]
 
 
 def test_finalize_source_registry_records_stats_and_persists(tmp_path) -> None:

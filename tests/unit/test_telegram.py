@@ -5,7 +5,8 @@ from typing import Any
 
 import pytest
 
-from app.services import telegram
+import app.telegram as telegram
+import app.telegram.client as telegram_client
 
 
 class FakeTelegramResponse:
@@ -30,7 +31,7 @@ class FakeTelegramClient:
 @pytest.fixture
 def stub_settings(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
-        telegram,
+        telegram_client,
         "get_settings",
         lambda: SimpleNamespace(
             telegram_bot_token=None,

@@ -3,8 +3,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from app.schemas.items import CollectedItem
-from app.services.curation import curate_items
-from app.services.source_discovery import SourceRegistry, seed_trusted
+from app.curation.curator import curate_items
+from app.curation.source_discovery import SourceRegistry, seed_trusted
 
 
 def _item(title: str, url: str, abstract: str = "") -> CollectedItem:

@@ -17,7 +17,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from app.services.deduplication import item_value, normalize_text
+from app.curation.deduplication import item_value, normalize_text
 
 BUCKETS_PATH = Path(__file__).resolve().parent.parent / "content" / "buckets.json"
 

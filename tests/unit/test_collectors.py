@@ -5,6 +5,7 @@ import time
 from typing import Any
 
 from app.collectors.arxiv import ARXIV_API_URL, collect_arxiv_papers
+from app.collectors.gdelt import GDELT_DOC_API_URL, collect_gdelt_articles
 from app.collectors.rss import collect_rss_items
 from app.collectors.semantic_scholar import (
     SEMANTIC_SCHOLAR_SEARCH_URL,
@@ -216,3 +217,51 @@ def test_collect_rss_items_continues_when_parser_fails() -> None:
     )
 
     assert [item.title for item in items] == ["Working item"]
+
+
+def test_collect_gdelt_articles_normalizes_search_results() -> None:
+    payload = {
+        "articles": [
+            {
+                "url": "https://example.com/ai-agent-news",
+                "title": " AI agent platform update ",
+                "domain": "example.com",
+                "seendate": "20260616T120000Z",
+                "socialimage": "https://example.com/agent.jpg",
+            },
+            {
+                "url": "https://example.com/ai-agent-news",
+                "title": "Duplicate URL",
+            },
+            {
+                "url": "",
+                "title": "Missing URL",
+            },
+        ]
+    }
+    client = FakeHttpClient(FakeResponse(payload=payload))
+
+    items = collect_gdelt_articles(
+        query='"AI agent"',
+        timespan="2d",
+        max_records=25,
+        timeout=3.0,
+        client=client,
+    )
+
+    assert len(items) == 1
+    assert client.get_calls[0]["url"] == GDELT_DOC_API_URL
+    assert client.get_calls[0]["params"]["query"] == '"AI agent"'
+    assert client.get_calls[0]["params"]["mode"] == "artlist"
+    assert client.get_calls[0]["params"]["format"] == "json"
+    assert client.get_calls[0]["params"]["timespan"] == "2d"
+    assert client.get_calls[0]["params"]["maxrecords"] == "25"
+
+    item = items[0]
+    assert item.source_type == "news_search"
+    assert item.source_name == "example.com"
+    assert item.external_id == "https://example.com/ai-agent-news"
+    assert item.title == "AI agent platform update"
+    assert item.abstract == "AI agent platform update"
+    assert item.source_url == "https://example.com/ai-agent-news"
+    assert item.image_url == "https://example.com/agent.jpg"

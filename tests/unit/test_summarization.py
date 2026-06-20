@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from app.services.summarization import SourceGroundedSummarizer, summarize_item
+from app.summarization import SourceGroundedSummarizer, summarize_item
 
 
 class FakeLLM:

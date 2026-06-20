@@ -1,0 +1,19 @@
+[Unit]
+Description=AI Engineering News Digest
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=%i
+WorkingDirectory=/opt/ai-agents-daily-news
+EnvironmentFile=/opt/ai-agents-daily-news/.env
+Environment=DIGEST_MODE=digest
+Environment=SOURCE_STATE_DIR=/opt/ai-agents-daily-news/state
+ExecStart=/opt/ai-agents-daily-news/.venv/bin/python -m app.jobs.run
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ai-digest
+
+[Install]
+WantedBy=multi-user.target

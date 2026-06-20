@@ -26,7 +26,7 @@ from app.db.repositories import (
     mark_topic_delivery_sent,
 )
 from app.db.session import session_scope
-from app.services.telegram import (
+from app.telegram import (
     TelegramConfigurationError,
     TelegramDeliveryResult,
     send_telegram_messages,

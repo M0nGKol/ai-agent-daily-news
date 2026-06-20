@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 
 from app.config import Settings
 from app.jobs import daily_topics
-from app.services.telegram import TelegramDeliveryResult
+from app.telegram import TelegramDeliveryResult
 
 
 def test_run_daily_topics_force_sends_only_one_topic(monkeypatch) -> None:

@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from app.services.deduplication import item_value, normalize_url
+from app.curation.deduplication import item_value, normalize_url
 
 DEFAULT_STATE_DIR = Path("state")
 TRUSTED_FILE = "trusted_sources.json"

@@ -30,6 +30,12 @@ jobs:
       RSS_FEEDS: ${{ vars.RSS_FEEDS }}
       DIGEST_MODE: digest
       MAX_DIGEST_ITEMS: ${{ vars.MAX_DIGEST_ITEMS || '5' }}
+      DIGEST_REPEAT_LOOKBACK_DAYS: ${{ vars.DIGEST_REPEAT_LOOKBACK_DAYS || '14' }}
+      MAX_ITEMS_PER_SOURCE_DOMAIN: ${{ vars.MAX_ITEMS_PER_SOURCE_DOMAIN || '1' }}
+      GDELT_ENABLED: ${{ vars.GDELT_ENABLED || 'true' }}
+      GDELT_QUERY: ${{ vars.GDELT_QUERY }}
+      GDELT_TIMESPAN: ${{ vars.GDELT_TIMESPAN || '3d' }}
+      GDELT_MAX_RECORDS: ${{ vars.GDELT_MAX_RECORDS || '50' }}
       SOURCE_STATE_DIR: state
       HTTP_TIMEOUT_SECONDS: ${{ vars.HTTP_TIMEOUT_SECONDS || '20' }}
 

@@ -1,5 +1,6 @@
 __all__ = [
     "collect_arxiv_papers",
+    "collect_gdelt_articles",
     "collect_rss_items",
     "collect_semantic_scholar_papers",
 ]
@@ -15,6 +16,10 @@ def __getattr__(name: str):
         from app.collectors.rss import collect_rss_items
 
         return collect_rss_items
+    if name == "collect_gdelt_articles":
+        from app.collectors.gdelt import collect_gdelt_articles
+
+        return collect_gdelt_articles
     if name == "collect_semantic_scholar_papers":
         from app.collectors.semantic_scholar import collect_semantic_scholar_papers
 

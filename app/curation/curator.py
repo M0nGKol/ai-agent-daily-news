@@ -16,15 +16,15 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
-from app.services.classification import (
+from app.curation.classification import (
     BucketConfig,
     Classification,
     classify_and_filter,
     get_bucket_config,
 )
-from app.services.deduplication import deduplication_keys, item_value, normalize_url
-from app.services.ranking import score_item
-from app.services.source_discovery import (
+from app.curation.deduplication import deduplication_keys, item_value, normalize_url
+from app.curation.ranking import score_item
+from app.curation.source_discovery import (
     SourceRegistry,
     domain_of,
     dynamic_source_trust_map,
@@ -60,6 +60,7 @@ def curate_items(
     bucket_config: BucketConfig | None = None,
     now: datetime | None = None,
     max_per_bucket: int | None = None,
+    max_per_domain: int | None = None,
 ) -> CurationResult:
     """Classify, filter, score, and bucket-rotate items into a digest selection."""
 
@@ -92,6 +93,7 @@ def curate_items(
         deduped,
         max_items=max_items,
         max_per_bucket=max_per_bucket,
+        max_per_domain=max_per_domain,
     )
 
     selected = [entry.item for entry in selected_entries]
@@ -133,6 +135,7 @@ def _rotate_by_bucket(
     *,
     max_items: int,
     max_per_bucket: int | None,
+    max_per_domain: int | None,
 ) -> list[ScoredItem]:
     """Round-robin across buckets (best first) so the mix varies each run."""
 
@@ -146,18 +149,30 @@ def _rotate_by_bucket(
         by_bucket[bucket].append(entry)
 
     counts: dict[str, int] = {bucket: 0 for bucket in order}
+    domain_counts: dict[str, int] = {}
     selected: list[ScoredItem] = []
     while len(selected) < max_items:
         progressed = False
         for bucket in order:
             queue = by_bucket[bucket]
-            if not queue:
-                continue
-            if max_per_bucket is not None and counts[bucket] >= max_per_bucket:
-                continue
-            selected.append(queue.pop(0))
-            counts[bucket] += 1
-            progressed = True
+            while queue:
+                if max_per_bucket is not None and counts[bucket] >= max_per_bucket:
+                    queue.clear()
+                    break
+                entry = queue.pop(0)
+                domain = domain_of(item_value(entry.item, "source_url", ""))
+                if (
+                    max_per_domain is not None
+                    and domain
+                    and domain_counts.get(domain, 0) >= max_per_domain
+                ):
+                    continue
+                selected.append(entry)
+                counts[bucket] += 1
+                if domain:
+                    domain_counts[domain] = domain_counts.get(domain, 0) + 1
+                progressed = True
+                break
             if len(selected) >= max_items:
                 break
         if not progressed:

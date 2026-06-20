@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from app.services.ranking import score_item_breakdown, select_top_items
+from app.curation.ranking import score_item_breakdown, select_top_items
 
 
 def test_score_item_breakdown_combines_keyword_recency_and_source_trust(make_item: Any) -> None:

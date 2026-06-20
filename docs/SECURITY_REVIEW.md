@@ -13,7 +13,8 @@ The MVP is on a reasonable security track: runtime secrets are read from
 environment variables, `.env` files are ignored, `.env.example` contains only
 placeholders, GitHub Actions uses repository secrets, Telegram messages escape
 HTML, source URLs are required for publishable digest items, and outbound
-collection currently uses APIs or RSS rather than HTML scraping.
+collection currently uses APIs, RSS, or search-style news APIs rather than HTML
+scraping.
 
 The main remaining risks are operational hardening items: dependency pinning
 and vulnerability scanning, explicit rate-limit/backoff behavior, stronger
@@ -32,10 +33,13 @@ coverage, and clear rules for tests that touch external APIs.
 - The daily job configures a redacting logging filter before execution.
 - Telegram delivery catches HTTP exceptions without logging the bot-token URL,
   escapes message content for HTML parse mode, and disables link previews.
+- Telegram command polling can restrict `/digest` triggers with
+  `TELEGRAM_COMMAND_ALLOWED_IDS`; if unset, only `TELEGRAM_CHAT_ID` can trigger
+  the command.
 - GitHub Actions has `permissions: contents: read`, no pull-request trigger,
   and reads tokens from `secrets.*` instead of committing them.
-- Collectors use arXiv API, Semantic Scholar API, and RSS feeds. No generic
-  website scraping was found.
+- Collectors use arXiv API, Semantic Scholar API, GDELT DOC API, and RSS feeds.
+  No generic website scraping was found.
 - Fact-checking requires source URLs and blocks obvious unsupported numeric
   claims and extra URLs in summaries.
 
@@ -78,7 +82,7 @@ Recommended MVP hardening:
 - Generate a pinned lockfile with hashes, for example using `pip-tools`.
 - Add `pip-audit` or an equivalent vulnerability scan to CI.
 - Enable Dependabot for Python dependencies and GitHub Actions.
-- Remove unused dependencies when confirmed unused, such as `requests`.
+- Removed confirmed unused dependency: `requests`.
 - Consider pinning GitHub Actions to full commit SHAs for higher-assurance
   scheduled jobs.
 
@@ -131,6 +135,8 @@ Current delivery code avoids logging those URLs directly. Operationally:
 - Rotate the bot token immediately if it appears in logs, issues, commits, or
   screenshots.
 - Use a dedicated bot and destination chat/channel for the digest.
+- Restrict command-triggered delivery with `TELEGRAM_COMMAND_ALLOWED_IDS` when
+  `/digest` is sent from a private chat or admin group.
 - Keep `disable_web_page_preview=True` unless previews are explicitly needed.
 
 ### P2: Add Test Guardrails For External APIs
@@ -176,6 +182,7 @@ No test files were present during this review. Before expanding the agent:
 - [x] Digest items require source URLs.
 - [x] Summaries are validated before publishing.
 - [x] Telegram HTML content is escaped.
+- [x] Telegram command triggering supports an allowed ID list.
 - [ ] Treat source text as untrusted prompt input with delimiters and size caps.
 - [ ] Expand schema validation and grounding tests.
 

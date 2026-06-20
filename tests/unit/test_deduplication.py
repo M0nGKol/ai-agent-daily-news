@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from app.services.deduplication import deduplicate_items, normalize_url
+from app.curation.deduplication import deduplicate_items, normalize_url
 
 
 def test_normalize_url_removes_tracking_and_preserves_meaningful_query() -> None:

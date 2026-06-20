@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from app.services.source_discovery import (
+from app.curation.source_discovery import (
     SourceRegistry,
     demote_stale_sources,
     domain_of,

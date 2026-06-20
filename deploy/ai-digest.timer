@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily AI Engineering News Digest — 07:00 ICT (00:00 UTC)
+Requires=ai-digest@%i.service
+
+[Timer]
+# 00:00 UTC = 07:00 Asia/Phnom_Penh (ICT, UTC+7)
+OnCalendar=*-*-* 00:00:00 UTC
+AccuracySec=1min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

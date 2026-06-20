@@ -21,6 +21,10 @@ DEFAULT_RSS_FEEDS: tuple[str, ...] = (
 )
 DEFAULT_SQLITE_DATABASE_URL = "sqlite:///./daily_digest.db"
 MAX_DAILY_DIGEST_ITEMS = 5
+DEFAULT_GDELT_QUERY = (
+    '("artificial intelligence" OR "generative AI" OR '
+    '"large language model" OR "AI agent" OR "machine learning")'
+)
 
 
 class Settings(BaseSettings):
@@ -37,6 +41,9 @@ class Settings(BaseSettings):
 
     telegram_bot_token: str | None = Field(default=None, repr=False)
     telegram_chat_id: str | None = Field(default=None, repr=False)
+    telegram_command_allowed_ids: str = ""
+    telegram_digest_command: str = "/digest"
+    telegram_command_poll_timeout_seconds: int = 25
 
     llm_provider: str | None = None
     llm_api_key: str | None = Field(default=None, repr=False)
@@ -50,6 +57,12 @@ class Settings(BaseSettings):
     http_timeout_seconds: int = 20
     digest_mode: str = "topics"
     source_state_dir: str = "state"
+    digest_repeat_lookback_days: int = 14
+    max_items_per_source_domain: int = 1
+    gdelt_enabled: bool = True
+    gdelt_query: str = DEFAULT_GDELT_QUERY
+    gdelt_timespan: str = "3d"
+    gdelt_max_records: int = 50
     topic_timezone: str = "Asia/Phnom_Penh"
     topic_send_start_hour: int = 8
     topic_send_end_hour: int = 22
@@ -90,7 +103,15 @@ class Settings(BaseSettings):
             return None
         return value
 
-    @field_validator("max_digest_items", "http_timeout_seconds", "topic_due_window_minutes")
+    @field_validator(
+        "max_digest_items",
+        "http_timeout_seconds",
+        "telegram_command_poll_timeout_seconds",
+        "topic_due_window_minutes",
+        "digest_repeat_lookback_days",
+        "max_items_per_source_domain",
+        "gdelt_max_records",
+    )
     @classmethod
     def positive_integer(cls, value: int) -> int:
         """Require positive integer limits for batch and HTTP settings."""
